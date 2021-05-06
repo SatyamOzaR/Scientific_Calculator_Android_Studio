@@ -9,20 +9,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
     Button btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_0,btn_dot,btn_ac,btn_c,btn_b1,btn_b2,btn_sin,
             btn_cos,btn_tan,btn_log,btn_ln,btn_fact,btn_x2,btn_akar,btn_inv,btn_div,btn_multiply,btn_minus,
             btn_plus,btn_equals,btn_phi;
 
     TextView text_small, text_big;
-
-    String phi = "3.13159265";
+    String phi = "3.14159265";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btn_1 = findViewById(R.id.btn_1);
         btn_2 = findViewById(R.id.btn_2);
         btn_3 = findViewById(R.id.btn_3);
@@ -275,8 +272,7 @@ public class MainActivity extends AppCompatActivity {
     int factorial(int n){
         return (n==1 || n==0) ? 1:n*factorial(n-1);
     }
-    //evaluation
-
+    
     public static double eval(final String str) {
         return new Object() {
             int pos = -1, ch;
@@ -304,8 +300,8 @@ public class MainActivity extends AppCompatActivity {
             double parseExpression() {
                 double x = parseTerm();
                 for (;;) {
-                    if      (eat('+')) x += parseTerm(); // addition
-                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    if      (eat('+')) x += parseTerm();
+                    else if (eat('-')) x -= parseTerm();
                     else return x;
                 }
             }
@@ -313,22 +309,22 @@ public class MainActivity extends AppCompatActivity {
             double parseTerm() {
                 double x = parseFactor();
                 for (;;) {
-                    if      (eat('*')) x *= parseFactor(); // multiplication
-                    else if (eat('/')) x /= parseFactor(); // division
+                    if      (eat('*')) x *= parseFactor();
+                    else if (eat('/')) x /= parseFactor();
                     else return x;
                 }
             }
 
             double parseFactor() {
-                if (eat('+')) return parseFactor(); // unary plus
-                if (eat('-')) return -parseFactor(); // unary minus
+                if (eat('+')) return parseFactor();
+                if (eat('-')) return -parseFactor();
 
                 double x;
                 int startPos = this.pos;
                 if (eat('(')) { // parentheses
                     x = parseExpression();
                     eat(')');
-                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') {
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = Double.parseDouble(str.substring(startPos, this.pos));
                 } else if (ch >= 'a' && ch <= 'z') { // functions
@@ -346,8 +342,7 @@ public class MainActivity extends AppCompatActivity {
                     throw new RuntimeException("Unexpected: " + (char)ch);
                 }
 
-                if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
-
+                if (eat('^')) x = Math.pow(x, parseFactor());
                 return x;
             }
         }.parse();
